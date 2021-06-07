@@ -1,0 +1,30 @@
+<odoo>
+    <record id="inherit_hr_contract_view_form" model="ir.ui.view">
+        <field name="name">inherit.hr.contract.view.form</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='advantages']" position="after">
+                <field name="consolidated"/>
+                <field name="budget_1"/>
+                <field name="budget_2"/>
+                <field name="travelling"/>
+                <field name="production_incentive"/>
+                <field name="other"/>
+                <field name="welfare"/>
+                <field name="salary_advance"/>
+                <field name="festival_advance"/>
+                <field name="staff_loan"/>
+                <field name="credit_bill"/>
+                <field name="stamp_fee"/>
+                <field name="other_ded"/>
+            </xpath>
+            <xpath expr="//field[@name='employee_id']" position="before">
+                <field name="initials" required="1"/>
+            </xpath>
+            <xpath expr="//field[@name='structure_type_id']" position="before">
+                <field name="epf_number" required="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

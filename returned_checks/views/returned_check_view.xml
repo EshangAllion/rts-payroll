@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="returned_checks_form" model="ir.ui.view">
+        <field name="name">returned.checks.form</field>
+        <field name="model">returned.checks</field>
+        <field name="arch" type="xml">
+            <form create="false">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <button name="confirm" type="object" string="Confirm" states="draft"/>
+                    <button name="%(return_checks_payment_wizards_action)d" type="action" string="Register Payment" class="oe_highlight o_expense_sheet_pay" context="{'default_amount': (amount-paid_amount), 'partner_id': partner_id}" states="open"/>
+                </header>
+                <sheet>
+                    <h1 class="mt0">
+                        <div>
+                            <field name="name" readonly="1"/>
+                        </div>
+                    </h1>
+                    <group>
+                        <field name="payment_id"/>
+                        <field name="partner_id"/>
+                        <field name="overdue_amount" invisible="1"/>
+                        <label for="amount"/>
+                        <div name="amount_div" class="o_row">
+                            <field name="amount"/>
+                            <field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency"/>
+                        </div>
+                        <label for="paid_amount" attrs="{'invisible':[('state','=','draft')]}"/>
+                        <div name="amount_div_2" class="o_row">
+                            <field name="paid_amount" readonly="1" attrs="{'invisible':[('state','=','draft')]}"/>
+                            <field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency" readonly="1"/>
+                        </div>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="returned_checks_tree" model="ir.ui.view">
+        <field name="name">returned.checks.tree</field>
+        <field name="model">returned.checks</field>
+        <field name="arch" type="xml">
+            <tree create="false">
+                <field name="name"/>
+                <field name="payment_id"/>
+                <field name="partner_id"/>
+                <field name="amount"/>
+                <field name="paid_amount"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="returned_checks_view_form_search" model="ir.ui.view">
+        <field name="name">returned.checks.view.form.search</field>
+        <field name="model">returned.checks</field>
+        <field name="arch" type="xml">
+            <search string="Search Return Checks">
+                <filter name="not_paid" string="UnPaid" domain="[('state', '=', 'open')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="act_view_return_checks" model="ir.actions.act_window">
+        <field name="name">Return Checks</field>
+        <field name="res_model">returned.checks</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_not_paid': 1}</field>
+        <field name="domain">[('partner_id.customer_rank', '>=', 1)]</field>
+    </record>
+
+    <record id="act_view_return_checks_supplier" model="ir.actions.act_window">
+        <field name="name">Return Checks</field>
+        <field name="res_model">returned.checks</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_not_paid': 1}</field>
+        <field name="domain">[('partner_id.supplier_rank', '>=', 1)]</field>
+    </record>
+
+    <menuitem id="menu_returned_checks"
+              name="Returned Checks"
+              action="act_view_return_checks"
+              parent="account.menu_finance_receivables"
+              sequence="100"
+    />
+    <menuitem id="menu_returned_checks_sup"
+              name="Returned Checks"
+              action="act_view_return_checks_supplier"
+              parent="account.menu_finance_payables"
+              sequence="100"
+    />
+</odoo>

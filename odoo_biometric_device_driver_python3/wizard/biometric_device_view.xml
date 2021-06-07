@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="biometric_device_wizard_form" model="ir.ui.view">
+			<field name="name">biometric.device.wizard.form</field>
+			<field name="model">biometric.device.wizard</field>
+			<field name="arch" type="xml">
+				<form>
+					<p class="oe_grey">
+						<h5>Select your Biomteric Device</h5>
+					</p>
+					<group colspan="4">
+						<group>
+							<field name="opertaion_type" invisible="1"/>
+							<field name="biometric_id" />
+						</group>
+					</group>
+					<footer>
+						<button name="confirm_update_with_biometric"
+								string="Update" attrs="{'invisible': [('opertaion_type','=','delete')]}"
+								type="object" class="oe_highlight"/>
+						<button name="confirm_delete_with_biometric"
+								string="Delete"  attrs="{'invisible': [('opertaion_type','=','update')]}"
+								type="object" class="oe_highlight"/>
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+
+		<record id="action_view_biometric_device_wizard_form3" model="ir.actions.act_window">
+			<field name="name">Delete Employee from Device</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">biometric.device.wizard</field>
+			<field name="groups_id" eval="[(4, ref('hr_attendance.group_hr_attendance_manager'))]"/>
+			<field name="binding_model_id" ref="hr.model_hr_employee"/>
+			<field name="view_id" ref="biometric_device_wizard_form"/>
+			<field name="context">{'default_opertaion_type': 'delete'}</field>
+			<field name="target">new</field>
+		</record>
+
+		<record id="action_view_biometric_device_wizard_form2" model="ir.actions.act_window">
+			<field name="name">Sync with Biometric</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">biometric.device.wizard</field>
+			<field name="view_mode">form</field>
+			<field name="binding_model_id" ref="hr.model_hr_employee"/>
+			<field name="view_id" ref="biometric_device_wizard_form"/>
+			<field name="context">{'default_opertaion_type': 'update'}</field>
+			<field name="target">new</field>
+		</record>
+
+
+		<record id="view_success_wizard" model="ir.ui.view">
+			<field name="name">Success</field>
+			<field name="model">success.wizard</field>
+			<field name="arch" type="xml">
+				<form string="Success Message">
+					<group>
+						<p class="oe_black">
+							<h5>Successfully Downloaded</h5>
+						</p>
+					</group>
+					<footer>
+						<button string="OK" special="cancel" class="oe_highlight"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+	</data>
+</odoo>

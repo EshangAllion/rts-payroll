@@ -1,0 +1,118 @@
+<odoo>
+    <template id="payment_voucher_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.basic_layout">
+                    <div class="header">
+                        <p><center><strong style="display:inline; font-size:16px;">Allion Technologies (Pvt) Ltd.</strong></center></p>
+                        <p><center><strong style="display:inline; font-size:18px;">Payment Voucher</strong></center></p>
+                    </div>
+                    <div class="page" style="font-size:14px">
+                        <table width="100%">
+                            <tr>
+                                <td width="15%"></td>
+                                <td width="5%"></td>
+                                <td width="50%"></td>
+                                <td width="5%"></td>
+                                <td width="15%" style="border: solid 1px">Date</td>
+                                <td width="15%" style="border: solid 1px"><span t-field="doc.payment_date" t-options ='{"format": "dd/MM/yyyy"}'/></td>
+                            </tr>
+                            <tr>
+                                <td width="10%"><b>Payee</b></td>
+                                <td width="5%" class="text-center"><b>:</b></td>
+                                <td width="50%" style="border-bottom: solid 1px">&#160;<span t-field="doc.partner_id"/></td>
+                                <td width="5%"></td>
+                                <td width="15%" style="border: solid 1px">Reference</td>
+                                <td width="15%" style="border: solid 1px"><span t-field="doc.name"/></td>
+                            </tr>
+                            <tr>
+                                <td width="10%"><b>Bank</b></td>
+                                <td width="5%" class="text-center"><b>:</b></td>
+                                <td width="50%" style="border-bottom: solid 1px">&#160;<span t-field="doc.journal_id"/></td>
+                                <td width="5%"></td>
+                                <td width="15%" style="border: solid 1px">Cheque No</td>
+                                <td width="15%" style="border: solid 1px"><span t-field="doc.cheque_no"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <table style="border: solid 1px; width: 100%; height: 200px; margin-top: 15px">
+                        <thead>
+                            <tr>
+                                <th style="width: 45%; border-right: solid 1px; border-bottom: solid 1px;"><center>Memo</center></th>
+                                <th style="width: 25.5%; border-right: solid 1px; border-bottom: solid 1px;"><center>Account</center></th>
+                                <th style="width: 15%; border-right: solid 1px; border-bottom: solid 1px;"><center>Bill No</center></th>
+                                <th style="width: 14.5%; border-bottom: solid 1px;"><center>Amount</center></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.payment_ids" t-as="payment">
+                                <tr>
+                                    <td style="border-left: solid 1px; padding-left: 5px;">
+                                        <span t-field="payment.communication"/>
+                                    </td>
+                                    <td style="border-left: solid 1px; padding-left: 5px;">
+                                        <span t-field="payment.partner_id.property_account_payable_id"/>
+                                    </td>
+                                    <td style="border-left: solid 1px; padding-left: 5px;">
+                                        <!--Todo-->
+                                    </td>
+                                    <td style="border-left: solid 1px; padding-right: 5px;" class="text-right">
+                                        <span t-field="payment.amount"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr>
+                                <td style="border-left: solid 1px;"></td>
+                                <!--<td></td>-->
+                                <td style="border-left: solid 1px;"></td>
+                                <td style="border-left: solid 1px;"></td>
+                                <td style="border-left: solid 1px;"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <table width="100%">
+                        <tr>
+                            <td width="12.5%" style="border-top: solid 1px; border-left: solid 1px; padding-left: 5px;"><b>Amount in</b></td>
+                            <td width="65%" rowspan="2" style="border: solid 1px;">&#160;<span t-field="doc.lines_total_amount_in_words"/></td>
+                            <td width="2.5%"></td>
+                            <td width="5%"><b>Total&#160;</b></td>
+                            <td width="15%" class="text-right" style="border: solid 1px;; padding-right: 5px;"><span t-field="doc.lines_total_amount"/></td>
+                        </tr>
+                        <tr>
+                            <td width="12.5%" style="border-bottom: solid 1px; border-left: solid 1px; padding-left: 5px;"><b>Words</b></td>
+                            <td width="2.5%"></td>
+                            <td width="5%"></td>
+                            <td width="10%"></td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <table style="width: 100%;">
+                        <tr>
+                            <td class="text-center" style="width: 30%;">-------------------------------</td>
+                            <td class="text-center" style="width: 40%;">-------------------------------</td>
+                            <td class="text-center" style="width: 30%;">-------------------------------</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center" style="width: 30%;"><b>Prepared By</b></td>
+                            <td class="text-center" style="width: 40%;"><b>Authorised By</b></td>
+                            <td class="text-center" style="width: 30%;"><b>Received By</b></td>
+                        </tr>
+                    </table>
+                </t>
+            </t>
+        </t>
+    </template>
+    <report
+            id="action_report_payment_voucher_bulk"
+            model="account.bulk.payment"
+            string="Payment Voucher"
+            report_type="qweb-pdf"
+            name="bulk_payment.payment_voucher_template"
+            file="bulk_payment.payment_voucher_template"
+            paperformat="bulk_payment.payment_voucher_paperformat"
+            menu="True"
+    />
+</odoo>

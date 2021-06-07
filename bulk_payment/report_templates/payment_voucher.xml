@@ -1,0 +1,126 @@
+<odoo>
+    <!-- template for payment voucher-->
+    <template id="payment_voucher_template_bulk">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.basic_layout">
+                    <div class="page" style="font-size:14px;">
+                        <div class="row">
+                            <div class="text-center">
+                                <h4><b><span t-esc="doc.company_id.name"/></b></h4>
+                                <t t-if="doc.company_id.street"><span t-esc="doc.company_id.street"/>,</t>
+                                <t t-if="doc.company_id.street2"><span t-esc="doc.company_id.street2"/>,</t>
+                                <t t-if="doc.company_id.city"><span t-esc="doc.company_id.city"/>,</t>
+                                <t t-if="doc.company_id.state_id.name"><span t-esc="doc.company_id.state_id.name"/>,</t>
+                                <t t-if="doc.company_id.zip"><span t-esc="doc.company_id.zip"/>,</t>
+                                <t t-if="doc.company_id.country_id.name"><span t-esc="doc.company_id.country_id.name"/></t>
+                                <h5><b>PAYMENT VOUCHER</b></h5>
+                            </div>
+                            <table width="100%" style="border: solid 1px; padding: 5px;">
+                                <tr height="10px">
+                                    <td width="55%" style="padding-top: 5px; padding-bottom: 5px">&#160;&#160;Payment Details</td>
+                                    <td width="15%" style="border-left: solid 1px; border-bottom: solid 1px;">&#160;&#160;&#160; Voucher No</td>
+                                    <td width="30%" style="border-left: solid 1px; border-bottom: solid 1px;">&#160;&#160;&#160; <span t-field="doc.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 5px; padding-bottom: 5px">&#160;&#160;&#160;&#160;Payee :  &#160;<b><span t-field="doc.partner_id.name"/></b></td>
+                                    <td style="border-left: solid 1px; border-bottom: solid 1px;">&#160;&#160;&#160; Date</td>
+                                    <td style="border-left: solid 1px; border-bottom: solid 1px;">&#160;&#160;&#160; <span t-field="doc.payment_date" t-options ='{"format": "dd/MM/yyyy"}'/></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 5px; padding-bottom: 5px">&#160;&#160;&#160;&#160;Bank&#160;&#160;  :  &#160;<b><span t-field="doc.journal_id.name"/></b></td>
+                                    <td style="border-left: solid 1px;">&#160;&#160;&#160; Cheque No</td>
+                                    <td style="border-left: solid 1px;">&#160;&#160;&#160;
+                                        <span t-if="doc.payment_method_code == 'check_printing' and doc.check_manual_sequencing == True" t-esc="doc.check_number"/>
+                                        <span t-if="doc.payment_method_code == 'check_printing' and doc.check_manual_sequencing == False" t-esc="doc.manual_check_number"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <table style="border: solid 1px; width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 25%; border-right: solid 1px; border-bottom: solid 1px; padding-left: 5px; padding-top: 3px; padding-bottom: 3px" class="text-left">Account</th>
+                                        <th style="width: 37%; border-right: solid 1px; border-bottom: solid 1px; padding-left: 5px;" class="text-left">Memo</th>
+<!--                                        <th style="width: 15%; border-right: solid 1px; border-bottom: solid 1px; padding-left: 5px;" class="text-left">Class</th>-->
+                                        <th style="width: 23%; border-bottom: solid 1px; padding-left: 5px;" class="text-right">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+<!--                                    total tax-->
+                                    <t t-set="total_tax" t-value="0"/>
+                                    <t t-set="total_amount" t-value="0"/>
+                                    <t t-foreach="doc.bulk_payment_lines" t-as="payment_line">
+                                        <t t-set="total_tax" t-value="total_tax + payment_line.invoice_id.amount_tax"/>
+                                        <t t-set="total_amount" t-value="total_amount + payment_line.invoice_id.amount_total"/>
+                                        <t t-foreach="payment_line.invoice_id.invoice_line_ids" t-as="invoice_line">
+                                            <tr>
+                                                <td style="border-left: solid 1px; padding-left: 5px; padding-top: 3px; padding-bottom: 3px;"><span t-esc="invoice_line.account_id.name"/></td>
+                                                <td style="border-left: solid 1px; padding-left: 5px;"><span t-esc="invoice_line.name"/></td>
+<!--                                                <td style="border-left: solid 1px; padding-left: 5px;"></td>-->
+                                                <td style="border-left: solid 1px; padding-right: 5px;" class="text-right"><span t-esc="invoice_line.price_subtotal" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </tbody>
+                            </table>
+
+                            <br/>
+                            <table width="100%">
+                                <tr>
+                                    <td  width="60%" style="padding-left:5px;"></td>
+                                    <td  width="20%" class="text-left" style="padding-left:5px;">Total Tax</td>
+                                    <td  width="20%" class="text-right" style="padding-left:5px;"><span t-esc="total_tax" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                                </tr>
+                                <tr>
+                                    <td  width="60%" style="padding-left:5px;"></td>
+                                    <td  width="20%" class="text-left" style="padding-left:5px;">Total Amount</td>
+                                    <td  width="20%" class="text-right" style="padding-left:5px;"><span t-esc="total_amount" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                                </tr>
+                                <tr>
+                                    <td  width="60%" style="padding-left:5px;"><span t-field="doc.lines_total_amount_in_words"/></td>
+                                    <td  width="20%" class="text-left" style="padding-left:5px;">Paid Amount</td>
+                                    <td  width="20%" class="text-right" style="padding-left:5px;"><span t-field="doc.lines_total_amount"/></td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td class="text-center" style="width: 25%;">...............................</td>
+                                    <td class="text-center" style="width: 25%;">...............................</td>
+                                    <td class="text-center" style="width: 25%;">...............................</td>
+                                    <td class="text-center" style="width: 25%;">...............................</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="width: 25%;">Prepared By&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
+                                    <td class="text-center" style="width: 25%;">Authorised By&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
+                                    <td class="text-center" style="width: 25%;">Approved By&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
+                                    <td class="text-center" style="width: 25%;">Received By&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <div class="text-right">
+                                <p>........................................</p>
+                                <p>Payee's Name &amp; ID No&#160;&#160;&#160;</p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <report
+            id="action_report_payment_voucher_bulk"
+            model="account.bulk.payment"
+            string="Payment Voucher"
+            report_type="qweb-pdf"
+            name="bulk_payment.payment_voucher_template_bulk"
+            file="bulk_payment.payment_voucher_template_bulk"
+            paperformat="bulk_payment.payment_voucher_paperformat_bulk"
+            menu="True"
+        />
+</odoo>

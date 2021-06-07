@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- template for payment receipt-->
+    <template id="report_payment_receipt_bulk">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.basic_layout">
+                    <div class="page" style="font-size:14px;">
+                        <div class="row">
+                            <div>
+                                <div width="50%" style="float:left">
+                                    <h2>RECEIPT</h2>
+                                </div>
+                                <div width="50%" style="float:right">
+                                    <div>
+                                        <table class="text-right">
+                                            <tr><td><b><span style="font-size:17px;" t-esc="doc.company_id.name"/>.</b></td></tr>
+                                            <tr><td><t t-if="doc.company_id.street"><span style="font-size:12px;" t-esc="doc.company_id.street"/>,</t>
+                                                <t t-if="doc.company_id.street2"><span style="font-size:12px;" t-esc="doc.company_id.street2"/>,</t>
+                                                <t t-if="doc.company_id.city"><span style="font-size:12px;" t-esc="doc.company_id.city"/>,</t>
+                                                <t t-if="doc.company_id.state_id.name"><span style="font-size:12px;" t-esc="doc.company_id.state_id.name"/>,</t>
+                                                <t t-if="doc.company_id.state_id.name"><span style="font-size:12px;" t-esc="doc.company_id.state_id.name"/>,</t>
+                                                <t t-if="doc.company_id.zip"><span style="font-size:12px;" t-esc="doc.company_id.zip"/>,</t>
+                                                <t t-if="doc.company_id.country_id.name"><span style="font-size:12px;" t-esc="doc.company_id.country_id.name"/></t>
+                                            </td></tr>
+                                            <tr><td><span style="font-size:12px;">TEL: <span t-esc="doc.company_id.phone"/>&#xA;</span></td></tr>
+                                            <tr><td><span style="font-size:12px;">EMAIL: <span t-esc="doc.company_id.email"/>&#160;&#160;Web site: <span t-esc="doc.company_id.website"/></span></td></tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <table width="100%" style="border: solid 1px; height: 2.5cm;">
+                            <tr>
+                                <td width="20%" height="20%" style="padding-left:5px;">Received From:</td>
+                                <td width="80%" height="20%"><span t-esc="doc.partner_id.name"/></td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <table width="100%">
+                            <tr>
+                                <td width="20%" style="border: solid 1px; padding-left:5px;">Payment Method</td>
+                                <td width="25%" style="border: solid 1px; padding-left:5px;"><span t-field="doc.journal_id.name"/></td>
+                                <td width="10%"/>
+                                <td width="20%" style="border: solid 1px; padding-left:5px;">Date Received</td>
+                                <td width="25%" style="border: solid 1px; padding-left:5px;"><span t-esc="doc.payment_date"/></td>
+                            </tr>
+                            <tr>
+                                <td width="20%" style="border: solid 1px; padding-left:5px;">Check/Ref. No.</td>
+                                <td width="25%" style="border: solid 1px; padding-left:5px;">
+                                    <span t-if="doc.payment_method_code == 'check_printing' and doc.check_manual_sequencing == True" t-esc="doc.check_number"/>
+                                    <span t-if="doc.payment_method_code == 'check_printing' and doc.check_manual_sequencing == False" t-esc="doc.manual_check_number"/>
+                                </td>
+                                <td width="10%"/>
+                                <td width="20%" style="border: solid 1px; padding-left:5px;">Reciept No</td>
+                                <td width="25%" style="border: solid 1px; padding-left:5px;"><span t-esc="doc.name"/></td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <table width="100%">
+                            <tr>
+                                <td colspan="3" style="border: solid 1px; padding-left:5px;">Invoices Paid</td>
+                            </tr>
+                            <tr>
+                                <td width="25%" style="border: solid 1px; padding-left:5px;">Date</td>
+                                <td width="45%" style="border: solid 1px; padding-left:5px;">Number</td>
+                                <td width="40%" style="border: solid 1px; padding-right:5px;" class="text-right">Amount Applied</td>
+                            </tr>
+
+                            <t t-foreach="doc.bulk_payment_lines" t-as="payment_line">
+                                <tr>
+                                    <td style="border: solid 1px; padding-left:5px;"><span t-esc="payment_line.invoice_id.date_invoice"/></td>
+                                    <td style="border: solid 1px; padding-left:5px;"><span t-esc="payment_line.invoice_id.number"/></td>
+                                    <td style="border: solid 1px; padding-right:5px;" class="text-right"><span t-esc="payment_line.invoice_id.amount_total" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/></td>
+                                </tr>
+                            </t>
+                        </table>
+                        <br/>
+                        <table width="100%">
+                            <tr>
+                                <td width="40%" class="text-left"><span t-esc="doc.lines_total_amount_in_words"/> Only</td>
+                                <td width="60%" class="text-right">Payment Amount.&#160;&#160;<b><u><span t-field="doc.lines_total_amount" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/></u></b></td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div width="100%" class="text-right">
+                            <p><span t-esc="doc.company_id.name"/></p>
+                            <p>...............................</p>
+                            <p>Accountant</p>
+                        </div>
+                        <div class="footer">
+                            <div class="text-muted">
+                                Page: <span class="page"/> / <span class="topage"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <report
+            id="action_report_payment_receipt_bulk"
+            model="account.bulk.payment"
+            string="Payment Receipt"
+            report_type="qweb-pdf"
+            name="bulk_payment.report_payment_receipt_bulk"
+            file="bulk_payment.report_payment_receipt_bulk"
+            paperformat="bulk_payment.payment_receipt_paperformat_bulk"
+            menu="False"
+        />
+</odoo>

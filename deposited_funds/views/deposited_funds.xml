@@ -1,0 +1,163 @@
+<odoo>
+    <data>
+        <record id="deposit_funds_wizard" model="ir.ui.view">
+            <field name="name">deposit.funds.wizard</field>
+            <field name="model">deposited.funds</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="journal_id" widget="selection" required="1"/>
+                    </group>
+                    <footer>
+                        <button name="deposit_fund" string="Realize" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="deposit_funds_wizard_2" model="ir.ui.view">
+            <field name="name">deposit.funds.wizard.2</field>
+            <field name="model">deposited.funds</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="journal_id" widget="selection" required="1"/>
+                    </group>
+                    <footer>
+                        <button name="create_bulk_payment" string="Deposit" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_deposit_funds_wizard">
+            <field name="name">Deposit Funds</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">deposited.funds</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="deposit_funds_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_deposit_funds_wizard_2">
+            <field name="name">Deposit Funds</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">deposited.funds</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="deposit_funds_wizard_2"/>
+            <field name="target">new</field>
+        </record>
+
+        <record id="inherit_bulk_payment" model="ir.ui.view">
+            <field name="name">inherit.bulk.payment</field>
+            <field name="model">account.bulk.payment</field>
+            <field name="inherit_id" ref="bulk_payment.view_bulk_payment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <field name="state" widget="statusbar" attrs="{'invisible': [('payment_type_name', 'not in', ['Cheque'])]}"/>
+                        <button name="%(action_deposit_funds_wizard)d" type="action" string="Realize" states="deposited" class="btn-primary" context="{'default_journal_id': bank_journal}"/>
+                        <button name="deposit_cheque" type="object" string="Deposit Cheque" states="cheque_on_hand"/>
+                        <button name="return_check" type="object" string="RETURN" states="deposited" class="btn-danger"/>
+                    </header>
+                </xpath>
+                <xpath expr="//field[@name='cheque_no']" position="before">
+                    <field name="bank_journal" attrs="{'invisible': [('payment_type_name', 'not in', ['Cheque'])], 'required': [('payment_type_name', '=', 'Cheque')], 'readonly': [('state', '!=', 'cheque_on_hand')]}" domain="[('type', '=', 'bank'), ('deposit_fund_journal', '=', False)]" widget="selection"/>
+                </xpath>
+                <xpath expr="//field[@name='communication']" position="replace">
+                    <field name="communication" readonly="1"/>
+                </xpath>
+                <xpath expr="//field[@name='receipt_no']" position="replace">
+                    <field name="receipt_no" required="0" readonly="1"/>
+                </xpath>
+                <xpath expr="//field[@name='cheque_no']" position="replace">
+                    <field name="cheque_no" attrs="{'invisible': [('payment_type_name', 'in', ['Cash','Over Payment'])],'readonly': [('state', '!=', 'cheque_on_hand')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='cheque_date']" position="replace">
+                    <field name="cheque_date" attrs="{'invisible': [('payment_type_name', 'in', ['Deposit Slip', 'Cash', 'Over Payment', 'Cash Discount'])], 'required': [('payment_type_name', 'in', ['Cheque', 'Deposit Cheque'])]}"/>
+                </xpath>
+                <xpath expr="//field[@name='deposited_bank_branch']" position="replace">
+                    <field name="account_fund_move_id" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="bulk_payment.view_bulk_payment_tree" model="ir.ui.view">
+            <field name="name">Bulk Payment Tree View</field>
+            <field name="model">account.bulk.payment</field>
+            <field name="arch" type="xml">
+                <tree create="false">
+                    <field name="name"/>
+                    <field name="payment_date"/>
+                    <field name="partner_id"/>
+                    <field name="payment_method_id"/>
+                    <field name="communication"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="lines_total_amount" widget="monetary"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--        <record id="act_deposit_funds" model="ir.actions.act_window">-->
+        <!--            <field name="name">Deposited Funds</field>-->
+        <!--            <field name="res_model">account.bulk.payment</field>-->
+        <!--            <field name="view_type">form</field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="domain">[('partner_type', '=', 'customer'), ('payment_type_name', '=', 'Cheque'), ('state', '=', 'deposited'), ('journal_id.deposit_fund_journal', '=', True)]</field>-->
+        <!--        </record>-->
+
+        <!--        <menuitem id="menu_deposited_funds"-->
+        <!--                  name="Deposited Funds"-->
+        <!--                  action="act_deposit_funds"-->
+        <!--                  parent="account.menu_finance_receivables"-->
+        <!--                  sequence="100"-->
+        <!--        />-->
+
+        <record id="inherit_view_account_journal_form" model="ir.ui.view">
+            <field name="name">inherit.view.account.journal.form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='account_control_ids']" position="after">
+                    <field name="deposit_fund_journal" attrs="{'invisible': [('type', '!=', 'bank')]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherit_customer_payment_form" model="ir.ui.view">
+            <field name="name">inherit.customer.payment.form</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="/tree" position="replace">
+                    <tree decoration-info="state == 'draft'" decoration-muted="state in ['reconciled', 'cancelled']">
+                        <field name="payment_date"/>
+                        <field name="name"/>
+                        <field name="journal_id"/>
+                        <field name="payment_method_id"/>
+                        <field name="partner_id" string="Customer"/>
+                        <field name="amount" sum="Amount"/>
+                        <field name="state"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="partner_type" invisible="1"/>
+                    </tree>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_account_payment_inherit" model="ir.ui.view">
+            <field name="name">account.payment.form.inherit</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_draft']" position="after">
+                    <button name="%(action_deposit_funds_wizard_2)d" type="action" string="Realize" class="btn-primary" attrs="{'invisible': ['|', '|', ('payment_type_name', 'not in', ['Cheque']), ('bulk_payment_id', '!=', False), ('reconciled_invoices_count','=', 0)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

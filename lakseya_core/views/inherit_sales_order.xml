@@ -1,0 +1,43 @@
+<odoo>
+    <record id="inherit_view_order_form" model="ir.ui.view">
+        <field name="name">inherit.view.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <xpath expr="sheet/notebook/page[1]/field[1]/tree//field[@name='tax_id']" position="after">
+                <field name="employee_id"/>
+                <field name="department_id" invisible="0"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="context">{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True, 'default_company_id': company_id}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='client_order_ref']" position="after">
+                <field name="album"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="employee_id" required="1" options="{'no_create': True}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="inherit_view_sales_order_filter" model="ir.ui.view">
+        <field name="name">inherit.view.sales.order.filter</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="album"/>
+            </xpath>
+        </field>
+    </record>
+
+    <template id="inherit_report_saleorder_document" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//div[@id='informations']" position="inside">
+            <div t-if="doc.employee_id.name" class="col-auto mw-100 mb-2">
+                <strong>Employee:</strong>
+                <p class="m-0" t-field="doc.employee_id"/>
+            </div>
+        </xpath>
+    </template>
+</odoo>

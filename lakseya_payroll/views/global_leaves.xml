@@ -1,0 +1,21 @@
+<odoo>
+    <record id="resource_holidays_tree_view" model="ir.ui.view">
+        <field name="model">resource.holidays.tree.view</field>
+        <field name="model">resource.holidays</field>
+        <field name="arch" type="xml">
+            <tree editable="top">
+                <field name="name" required="1"/>
+                <field name="start_date" required="1"/>
+                <field name="end_date" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="resource_holidays_action" model="ir.actions.act_window">
+        <field name="name">Holidays</field>
+        <field name="res_model">resource.holidays</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_holidays_locations" action="resource_holidays_action"  name="Holidays" parent="hr.menu_human_resources_configuration"/>
+</odoo>

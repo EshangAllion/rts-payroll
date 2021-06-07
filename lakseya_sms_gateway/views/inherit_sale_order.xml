@@ -1,0 +1,12 @@
+<odoo>
+    <record id="inherit_view_order_form_1" model="ir.ui.view">
+        <field name="name">inherit.view.order.form.1</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tax_id']" position="after">
+<!--                <field name="mobile_number"/>-->
+            </xpath>
+        </field>
+    </record>
+</odoo>

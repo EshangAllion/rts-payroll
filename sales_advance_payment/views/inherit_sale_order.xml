@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="inherit_sale_view_form" model="ir.ui.view">
+        <field name="name">inherit.sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="before">
+                <button name="%(advance_payment_wizards_action)d" type="action" string="Advance Payment" context="{'default_amount': amount_total, 'partner_id': partner_id}" states="draft,sent"/>
+                <button name="sales_advance_payment.new_job_slip_action" type="action" string="Print Receipt" states="draft,sent"/>
+            </xpath>
+<!--            <button name="action_view_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('invoice_count', '=', 0)]}">-->
+<!--                <field name="invoice_count" widget="statinfo" string="Invoices"/>-->
+<!--            </button>-->
+            <xpath expr="//button[@name='action_view_invoice']" position="after">
+                <field name="advance_payment_ids" invisible="1"/>
+                <button name="open_advance_payments" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('advance_payment_ids', '=', False)]}">
+                    <field name="advance_payments_total" widget="monetary" string="Advance Payments"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="inherit_view_account_payment_form">
+        <field name="name">inherit.view.account.payment.form</field>
+        <field name="model">account.payment.register</field>
+        <field name="inherit_id" ref="account.view_account_payment_form_multi"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='lines_total_amount']" position="replace">
+                    <field name="paying_amount"/>
+                    <field name="balance"/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="inherit_account_view_form" model="ir.ui.view">
+        <field name="name">inherit.account.view.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_reverse']" position="before">
+                <button name="sales_advance_payment.new_job_slip_action_invoice" type="action" string="Print Receipt"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

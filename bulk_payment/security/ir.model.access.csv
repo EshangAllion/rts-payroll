@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+bulk_payment_user_bulk_payment_model_access,Bulk payment user Bulk Payment Model Access,model_account_bulk_payment,bulk_payment.group_account_payment_bulk_user,1,1,1,0
+bulk_payment_user_bulk_payment_line_model_access,Bulk payment user Bulk Payment Line Model Access,model_account_bulk_payment_line,bulk_payment.group_account_payment_bulk_user,1,1,1,1
+receipts_numbers_access,Recept Numbers Access,model_receipts_numbers,base.group_user,1,1,1,0

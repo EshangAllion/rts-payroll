@@ -1,0 +1,77 @@
+<odoo>
+    <record id="commission_slab_configuration_form_view" model="ir.ui.view">
+        <field name="name">commission.slab.configuration.form.view</field>
+        <field name="model">commission.slab.configuration</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" required="1"/>
+                        </h1>
+                    </div>
+                    <separator/>
+                    <group>
+                        <group>
+                            <field name="employee_ids" required="1" widget="many2many_tags"/>
+                            <field name="department_id" required="1"/>
+                        </group>
+                        <group>
+                            <field name="commission_type" required="1"/>
+                            <field name="company_id" invisible="0"/>
+                        </group>
+                    </group>
+                    <field name="slab_config_ids">
+                        <tree editable="bottom100" default_order="id">
+                            <field name="revenue_start_amount"/>
+                            <field name="revenue_end_amount"/>
+                            <field name="amount"/>
+                        </tree>
+                        <form>
+                            <group>
+                                <group>
+                                    <field name="revenue_start_amount"/>
+                                    <field name="revenue_end_amount"/>
+                                </group>
+                                <group>
+                                    <field name="amount"/>
+                                </group>
+                            </group>
+                        </form>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="commission_slab_configuration_tree_view" model="ir.ui.view">
+        <field name="name">commission.slab.configuration.tree.view</field>
+        <field name="model">commission.slab.configuration</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <!--                <field name="user_id"/>-->
+            </tree>
+        </field>
+    </record>
+
+    <record id="commission_slab_configuration_action" model="ir.actions.act_window">
+        <field name="name">Commission Slab Configuration</field>
+        <field name="res_model">commission.slab.configuration</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Slab
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+            id="menu_commission_slab_configuration"
+            name="Commission Slab Configuration"
+            action="commission_slab_configuration_action"
+            parent="hr.menu_human_resources_configuration"
+            sequence="1"
+            groups="base.group_user"/>
+</odoo>

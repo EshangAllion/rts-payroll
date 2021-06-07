@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+	    <record id="attendance_calc_wizard_form" model="ir.ui.view">
+	        <field name="name">attendance.calc.wizard.form</field>
+	        <field name="model">attendance.calc.wizard</field>
+	        <field name="arch" type="xml">
+		        <form>
+		            <p class="oe_grey">
+     					<h4>This will calculate attendances till yesterday</h4>
+                   	</p>
+		            <footer>
+		                <button name="calculate_attendance" string="Calculate" type="object" class="oe_highlight"/>
+		                <button string="Cancel" class="oe_link" special="cancel" />
+		            </footer>
+		        </form>
+	        </field>
+	    </record>
+	    <record id="action_view_attendance_calc_wizard_form" model="ir.actions.act_window">
+	            <field name="name">Calculate Attendance</field>
+	            <field name="type">ir.actions.act_window</field>
+	            <field name="res_model">attendance.calc.wizard</field>
+	            <field name="view_mode">form</field>
+	            <field name="view_id" ref="attendance_calc_wizard_form"/>
+	            <field name="target">new</field>
+	    </record>
+	    
+	    <menuitem
+	        	action="action_view_attendance_calc_wizard_form"
+	            id="menu_attendance_calc_wizard"
+	            parent="hr_attendance.menu_hr_attendance_manage_attendances"
+	            sequence="25"
+	            groups="hr_attendance.group_hr_attendance_manager"
+	    />
+	</data>
+	
+</odoo>

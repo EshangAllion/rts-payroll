@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_salary_slip">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <div class="page" style="font-family: Times new Roman;">
+                        <div width="100%" class="text-center" style="border: solid 1px;background-image: url('/lakseya_payroll/static/img/lakseya_logo.png');height: 150px;background-repeat: no-repeat;background-size: cover">
+                        </div>
+                        <table width="100%" style="border-left: solid 1px; border-right: solid 1px;">
+                            <tr>
+                                <td class="text-center" colspan="6" width="27%" style="padding-left:5px"><span><b>Lakseya Digital Colour Lab (Pvt) Ltd</b></span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px" colspan="5"><b><span t-field="o.name"/></b></td>
+                                <td style="padding-left:5px;padding-right:5px" class="text-right"><span>Hr</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px" width="13%"><span>Dept.</span></td>
+                                <td width="2%"><span>:</span></td>
+                                <td width="35%"><span t-field="o.employee_id.department_id"/></td>
+                                <td style="padding-left:5px" width="20%"><span>Normal OT.</span></td>
+                                <td width="2%"><span>:</span></td>
+                                    <t t-foreach="o.input_line_ids.filtered(lambda input: input.input_type_id.code == 'NOT')" t-as="nort">
+                                        <td class="text-right" style="padding-right:5px"><span t-esc="'{0:,.2f}'.format(nort.amount)"/></td>
+                                    </t>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px" width="13%"><span>Desig.</span></td>
+                                <td width="2%"><span>:</span></td>
+                                <td width="35%"><span t-field="o.employee_id.job_id"/></td>
+                                <td style="padding-left:5px" width="20%"><span>Double OT.</span></td>
+                                <td width="2%"><span>:</span></td>
+                                <t t-foreach="o.input_line_ids.filtered(lambda input: input.input_type_id.code == 'DOT')" t-as="dot">
+                                    <td class="text-right" style="padding-right:5px"><span t-esc="'{0:,.2f}'.format(dot.amount)"/></td>
+                                </t>
+                            </tr>
+                        </table>
+                        <table width="100%" style="border-left: solid 1px; border-right: solid 1px; border-top: solid 1px;">
+                            <tr>
+                                <td width="10%" style="padding-left:5px"><span>Name</span></td>
+                                <td width="60%"><span t-field="o.employee_id"/></td>
+                                <td width="15%"><span>EPF NO</span></td>
+                                <td width="15%"><span t-field="o.contract_id.epf_number"/></td>
+                            </tr>
+                        </table>
+                        <table width="100%" style="border-top: solid 1px;border-left: solid 1px;border-right: solid 1px;">
+                            <tr>
+                                <td style="padding-left:5px;" colspan="2"><b><span style="border-bottom-style:double;border-width:3px;">Earnings</span></b></td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span>Consolidated</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'CON')" t-as="con">
+                                    <td class="text-right" style="padding-right:5px"><span t-esc="'{0:,.2f}'.format(con.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span>Budget Allowance 01</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'BA1')" t-as="ba1">
+                                    <td class="text-right" style="padding-right:5px"><span t-esc="'{0:,.2f}'.format(ba1.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span>Budget Allowance 02</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'BA2')" t-as="ba2">
+                                    <td class="text-right" style="padding-right:5px"><span t-esc="'{0:,.2f}'.format(ba2.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span>Over Time</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'OT')" t-as="ot">
+                                    <td class="text-right" style="padding-right:5px"><span t-esc="'{0:,.2f}'.format(ot.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span>Travelling Allowance</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'TRA')" t-as="tra">
+                                    <td class="text-right" style="padding-right:5px"><span t-esc="'{0:,.2f}'.format(tra.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span>Production Incentive</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'PRI')" t-as="pri">
+                                    <td class="text-right" style="padding-right:5px;"><span t-esc="'{0:,.2f}'.format(pri.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span>Sales Incentive</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'SAI')" t-as="sai">
+                                    <td class="text-right" style="padding-right:5px;"><span t-esc="'{0:,.2f}'.format(sai.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span>OTH</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'OTH')" t-as="oth">
+                                    <td class="text-right" style="padding-right:5px;"><span t-esc="'{0:,.2f}'.format(oth.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td>&#160;</td>
+                                <td>&#160;</td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span><b>Total Earnings</b></span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'GROSS')" t-as="gross">
+                                    <td class="text-right" style="padding-right:5px;"><b><span t-esc="'{0:,.2f}'.format(gross.total)"/></b></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td>&#160;</td>
+                                <td>&#160;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="padding-left:5px"><b><span style="border-bottom-style:double;border-width:3px;">Deductions</span></b></td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span>EPF - 8%</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'EP8')" t-as="ep8">
+                                    <td class="text-right" style="padding-right:5px"><span t-esc="'{0:,.2f}'.format(ep8.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span>Payee</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'PAY')" t-as="pay">
+                                    <td class="text-right" style="padding-right:5px"><span t-esc="'{0:,.2f}'.format(pay.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span>Stamp Fee</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'STF')" t-as="stf">
+                                    <td class="text-right" style="padding-right:5px"><span t-esc="'{0:,.2f}'.format(stf.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span>No Pay</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'NOP')" t-as="nop">
+                                    <td class="text-right" style="padding-right:5px;"><span t-esc="'{0:,.2f}'.format(nop.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span>Salary Advance</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'SAA')" t-as="saa">
+                                    <td class="text-right" style="padding-right:5px;"><span t-esc="'{0:,.2f}'.format(saa.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span>Festival Advance</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'FEA')" t-as="fea">
+                                    <td class="text-right" style="padding-right:5px;"><span t-esc="'{0:,.2f}'.format(fea.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span>Loan Deduction</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'STL')" t-as="stl">
+                                    <td class="text-right" style="padding-right:5px;"><span t-esc="'{0:,.2f}'.format(stl.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span>Staff Welfare</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'STW')" t-as="stw">
+                                    <td class="text-right" style="padding-right:5px;"><span t-esc="'{0:,.2f}'.format(stw.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span>Other</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'OTD')" t-as="otd">
+                                    <td class="text-right" style="padding-right:5px;"><span t-esc="'{0:,.2f}'.format(otd.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td>&#160;</td>
+                                <td>&#160;</td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span><b>Total Deductions</b></span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'TOD')" t-as="tod">
+                                    <td class="text-right" style="padding-right:5px;"><br><span t-esc="'{0:,.2f}'.format(tod.total)"/></br></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td>&#160;</td>
+                                <td>&#160;</td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span>Last Month Coin</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'NP')" t-as="np">
+                                    <td class="text-right" style="padding-right:5px; border-bottom: solid 1px;"><span t-esc="'{0:,.2f}'.format(np.total)"/></td>
+                                </t>
+                                <td>&#160;</td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span>This Month Coin</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'NP')" t-as="np">
+                                    <td class="text-right" style="padding-right:5px; border-bottom: solid 1px;"><span t-esc="'{0:,.2f}'.format(np.total)"/></td>
+                                </t>
+                                <td>&#160;</td>
+                            </tr>
+                            <tr>
+                                <td>&#160;</td>
+                                <td>&#160;</td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px"><span><b>Net Pay</b></span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'NET')" t-as="net">
+                                    <td class="text-right" style="padding-right:5px;"><span t-esc="'{0:,.2f}'.format(net.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td>&#160;</td>
+                                <td>&#160;</td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px;border-top: solid 1px;"><span>ETF-3%</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'ET3')" t-as="et3">
+                                    <td class="text-right" style="padding-right:5px;border-top: solid 1px;"><span t-esc="'{0:,.2f}'.format(et3.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px;border-bottom: solid 1px;"><span>EPF-12%</span></td>
+                                <t t-foreach="o.line_ids.filtered(lambda line: line.code == 'E12')" t-as="e12">
+                                    <td class="text-right" style="padding-right:5px;border-bottom: solid 1px;"><span t-esc="'{0:,.2f}'.format(e12.total)"/></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td>&#160;</td>
+                                <td>&#160;</td>
+                            </tr>
+                            <tr>
+                                <td>&#160;</td>
+                                <td>&#160;</td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px;border-bottom: solid 1px;" colspan="2"><b><span>Salary Inclusive of 2016 BRA</span></b></td>
+                            </tr>
+                        </table>
+                        <!--                        <table width="100%" style="border-bottom: solid 1px;border-left: solid 1px;border-right: solid 1px;">-->
+                        <!--                            <tr style="color:white">-->
+                        <!--                                <td>&#160;</td>-->
+                        <!--                                <td>&#160;</td>-->
+                        <!--                            </tr>-->
+                        <!--                            <tr style="color:white">-->
+                        <!--                                <td>&#160;</td>-->
+                        <!--                                <td>&#160;</td>-->
+                        <!--                            </tr>-->
+                        <!--                            <tr style="color:white">-->
+                        <!--                                <td>&#160;</td>-->
+                        <!--                                <td>&#160;</td>-->
+                        <!--                            </tr>-->
+                        <!--                            <tr style="color:white">-->
+                        <!--                                <td>&#160;</td>-->
+                        <!--                                <td>&#160;</td>-->
+                        <!--                            </tr>-->
+                        <!--                            <tr style="color:white">-->
+                        <!--                                <td>&#160;</td>-->
+                        <!--                                <td>&#160;</td>-->
+                        <!--                            </tr>-->
+                        <!--                            <tr style="margin-top: 10px" class="text-center">-->
+                        <!--                                <td width="50%" style="padding-left:5px"><span>.......................................</span></td>-->
+                        <!--                                <td width="50%" style="padding-right:5px"><span>.......................................</span></td>-->
+                        <!--                            </tr>-->
+                        <!--                            <tr style="margin-top: 10px" class="text-center">-->
+                        <!--                                <td style="padding-left:5px"><span>Employee Signature</span></td>-->
+                        <!--                                <td style="padding-right:5px"><span>Asst. Manager - HR Signature</span></td>-->
+                        <!--                            </tr>-->
+                        <!--                            <tr style="color:white">-->
+                        <!--                                <td>&#160;</td>-->
+                        <!--                                <td>&#160;</td>-->
+                        <!--                            </tr>-->
+                        <!--                        </table>-->
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

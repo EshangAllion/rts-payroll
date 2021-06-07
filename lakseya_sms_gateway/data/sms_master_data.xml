@@ -1,0 +1,31 @@
+<odoo>
+    <data noupdate="1">
+        <record id="master_data_record_1" model="sms.gateway.url">
+            <field name="name">http://sms.textware.lk:5000/sms/send_sms.php</field>
+            <field name="sender_id">Lakseya</field>
+            <field name="username">lakseya</field>
+            <field name="password">Lk76Sya</field>
+            <field name="dr">1</field>
+        </record>
+        <record id="config_record_1" model="sms.gateway.config">
+            <field name="name">order_create</field>
+            <field name="url_id" ref="master_data_record_1"/>
+            <field name="body">
+Dear Customer,
+Thank you for placing your order with us.
+Order No: %s.
+Your order has been processed.
+            </field>
+        </record>
+        <record id="config_record_2" model="sms.gateway.config">
+            <field name="name">order_confirm</field>
+            <field name="url_id" ref="master_data_record_1"/>
+            <field name="body">
+Dear Customer,
+Your order %s is complete and ready to dispatch.
+Your Current outstanding is Rs. %s.
+Thank you and please do visit us again!
+            </field>
+        </record>
+    </data>
+</odoo>

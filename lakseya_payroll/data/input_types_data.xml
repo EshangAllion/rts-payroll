@@ -1,0 +1,20 @@
+<odoo>
+    <data noupdate="1">
+        <record id="input_commission" model="hr.payslip.input.type">
+            <field name="name">Commission</field>
+            <field name="code">COMM</field>
+        </record>
+        <record id="input_normal_ot" model="hr.payslip.input.type">
+            <field name="name">Normal OT</field>
+            <field name="code">NOT</field>
+        </record>
+        <record id="input_double_ot" model="hr.payslip.input.type">
+            <field name="name">Double OT</field>
+            <field name="code">DOT</field>
+        </record>
+        <record id="input_nopay" model="hr.payslip.input.type">
+            <field name="name">Nopay</field>
+            <field name="code">NOPAY</field>
+        </record>
+    </data>
+</odoo>

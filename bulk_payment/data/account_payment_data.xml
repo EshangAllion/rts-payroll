@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- create new payment method for inbound checks-->
+        <record id="account_payment_method_check_bulk" model="account.payment.method">
+            <field name="name">Checks</field>
+            <field name="code">check_printing</field>
+            <field name="payment_type">inbound</field>
+        </record>
+
+        <!-- execute python function to map journal with newly created payment method-->
+        <function model="account.journal" name="_enable_check_printing_inbound_on_bank_journals"/>
+
+    </data>
+</odoo>

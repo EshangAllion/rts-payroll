@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <menuitem id="menu_lakseya_core_root" name="Service Log" sequence="5" groups="group_service_log"
+              web_icon="lakseya_core,static/description/icon.png"/>
+
+    <record id="hr.menu_hr_root" model="ir.ui.menu">
+        <field name="groups_id" eval="[(3,ref('base.group_user')),(3,ref('group_hr_employee')),(3,ref('hr.group_hr_user'))]"/>
+    </record>
+
+    <record id="hr_holidays.menu_hr_holidays_root" model="ir.ui.menu">
+        <field name="groups_id" eval="[(3,ref('base.group_user'))]"/>
+    </record>
+</odoo>

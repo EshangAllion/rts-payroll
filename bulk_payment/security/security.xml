@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+
+        <!--bulk payment user group-->
+        <record model="res.groups" id="group_account_payment_bulk_user">
+            <field name="name">Bulk Payment User</field>
+        </record>
+
+        <!--add bulk payment user group to Billing group-->
+        <record model="res.groups" id="account.group_account_invoice">
+            <field name="implied_ids" eval="[(4, ref('bulk_payment.group_account_payment_bulk_user'))]"/>
+        </record>
+
+    </data>
+
+    <record model="ir.rule" id="bulk payment_record_rule">
+        <field name="name">Bulk Payment multi-company</field>
+        <field name="model_id" ref="model_account_bulk_payment"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

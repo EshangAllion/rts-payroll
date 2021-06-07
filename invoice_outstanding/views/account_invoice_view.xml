@@ -1,0 +1,13 @@
+<odoo>
+    <record id="inherit_view_order_form_os" model="ir.ui.view">
+        <field name="name">inherit.view.order.form.os</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_residual']" position="after">
+                <field name="overdue_amount" widget="monetary"  attrs="{'invisible': [('state', '=', 'draft')]}"/>
+<!--                <field name="stored_overdue_amount" invisible="1"/>-->
+            </xpath>
+        </field>
+    </record>
+</odoo>

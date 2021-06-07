@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="biometric_attnd_log_view_tree" model="ir.ui.view">
+		<field name="name">biometric.attnd.log.tree</field>
+		<field name="model">attendance.log</field>
+		<field name="arch" type="xml">
+	   		<tree string="Biometric Device" editable="top">
+            	<field name="employee_id" required="1"/>
+       			<field name="punching_time" required="1"/>
+                <field name="date"/>
+       			<field name="status" required="1"/>
+       			<field name="device" required="1"/>
+	    	</tree>
+		</field>
+	</record>
+
+	<record id="action_biometric_attnd_log_view" model="ir.actions.act_window">
+        <field name="name">Biometric Attendance Log</field>
+        <field name="res_model">attendance.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{"search_default_today":1}</field>
+    </record>
+	
+	<menuitem action="action_biometric_attnd_log_view" 
+			  id="menu_biometric_attnd_log"
+              name="Attendance Log"
+			  parent="hr_attendance.menu_hr_attendance_manage_attendances"
+			  sequence="51"
+              groups="hr_attendance.group_hr_attendance_manager"/>
+
+</odoo>

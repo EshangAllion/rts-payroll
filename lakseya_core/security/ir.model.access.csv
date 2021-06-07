@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_service_log,access.service.log,model_service_log,group_service_log,1,1,1,1
+access_sale_order_group_service_log,access.sale.order.group.service.log,sale.model_sale_order,group_service_log,1,1,1,1
+access_sale_order_line_group_service_log,access.sale.order.line.group.service.log,sale.model_sale_order_line,group_service_log,1,1,1,1

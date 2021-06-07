@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<odoo>
+    <record model="ir.rule" id="check_returns_record_rule">
+        <field name="name">Check Returns multi-company</field>
+        <field name="model_id" ref="model_returned_checks"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id','=',user.company_id.id)]</field>
+    </record>
+</odoo>

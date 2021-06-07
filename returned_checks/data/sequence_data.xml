@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Bulk Payment sequences -->
+        <record id="sequence_returned_checks" model="ir.sequence">
+            <field name="name">Returned Checks sequence</field>
+            <field name="code">sequence.returned.checks</field>
+            <field name="prefix">RC/%(range_year)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</odoo>

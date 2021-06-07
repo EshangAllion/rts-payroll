@@ -1,0 +1,216 @@
+<odoo>
+    <data>
+        <template id="report_job_slip">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.basic_layout">
+                        <div class="page" style="font-size:14px;font-family: Times new Roman;">
+                            <table width="85%">
+                                <tr>
+                                    <td class="text-center" colspan="6" width="27%" style="padding-left:5px"><span><b><span t-field="doc.company_id.name"/></b></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" colspan="6" width="27%" style="padding-left:5px"><span><b><span t-field="doc.company_id.street"/>, <span t-field="doc.company_id.street2"/>, <span t-field="doc.company_id.city"/></b></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" colspan="6" width="27%" style="padding-left:5px;border-bottom:solid 1px;"><span><b>+94 114341238</b></span></td>
+                                </tr>
+                            </table>
+                            <table width="85%">
+                                <tr>
+                                    <td class="text-left" width="50%" style="padding-left:5px"><span t-field="doc.partner_id.name"/></td>
+                                    <td class="text-left" width="50%" style="padding-left:5px"><span t-field="doc.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left" width="50%" style="padding-left:5px">&#160;</td>
+                                    <td class="text-left" width="50%" style="padding-left:5px"><span t-esc="doc.date_order.date()"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left" width="50%" style="padding-left:5px;border-bottom:solid 1px;"><span t-field="doc.partner_id.mobile"/></td>
+                                    <td class="text-left" width="50%" style="padding-left:5px;border-bottom:solid 1px;"><span t-field="doc.partner_id.phone"/></td>
+                                </tr>
+                            </table>
+                            <table width="85%">
+                                <t t-foreach="doc.order_line" t-as="line">
+                                    <tr>
+                                        <td class="text-left" width="100%" style="padding-left:5px" colspan="2"><span t-field="line.product_id"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right" width="30%" style="padding-left:5px"><span t-field="line.price_unit"/></td>
+                                        <td class="text-center" width="30%" style="padding-left:5px"><span t-field="line.product_uom_qty"/></td>
+                                        <td class="text-right" width="40%" style="padding-left:5px"><span t-esc="'{0:,.2f}'.format(line.product_uom_qty * line.price_unit)" t-esc-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
+                                    </tr>
+                                </t>
+                            </table>
+                            <table width="85%">
+                                <tr>
+                                    <td class="text-left" width="20%" style="padding-left:5px;border-top:solid 1px;">&#160;</td>
+                                    <td class="text-left" width="60%" style="padding-left:5px;border-top:solid 1px;"><span>Total Amount</span></td>
+                                    <td class="text-right" width="20%" style="padding-left:5px;border-top:solid 1px;"><span t-field="doc.amount_total"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left" width="20%" style="padding-left:5px"><span t-field="doc.employee_id.emp_no"/></td>
+                                    <td class="text-left" width="60%" style="padding-left:5px"><span>Advance Amount</span></td>
+                                    <td class="text-right" width="20%" style="padding-left:5px"><span t-field="doc.advance_payments_total"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left" width="20%" style="padding-left:5px">&#160;</td>
+                                    <td class="text-left" width="60%" style="padding-left:5px"><span>Total Bal. Amount</span></td>
+                                    <td class="text-right" width="20%" style="padding-left:5px"><span t-esc="'{0:,.2f}'.format(doc.amount_total - doc.advance_payments_total)" t-esc-options='{"widget": "monetary", "display_currency": "currency"}'/>&#160;<span t-field="doc.currency_id.symbol"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left" width="20%" style="padding-left:5px">&#160;</td>
+                                    <td class="text-left" width="60%" style="padding-left:5px"><span>Total Due</span></td>
+                                    <td class="text-right" width="20%" style="padding-left:5px"><span t-field="doc.partner_id.total_due"/></td>
+                                </tr>
+                                <!--                                <tr>-->
+                                <!--                                    <td class="text-left" width="20%" style="padding-left:5px">&#160;</td>-->
+                                <!--                                    <td class="text-left" width="60%" style="padding-left:5px"><span>Paid Amount</span></td>-->
+                                <!--                                    <td class="text-right" width="20%" style="padding-left:5px"><span>Donno</span></td>-->
+                                <!--                                </tr>-->
+                            </table>
+                        </div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div name="footer_left_column" class="text-left" style="font-size:10px;font-family: Times new Roman;">
+                            <div name="pager" t-if="report_type == 'pdf'">
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="report_job_slip_invoice">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.basic_layout">
+                        <div class="page" style="font-size:14px;font-family: Times new Roman;">
+                            <table width="85%">
+                                <tr>
+                                    <td class="text-center" colspan="6" width="27%" style="padding-left:5px"><span><b><span t-field="doc.company_id.name"/></b></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" colspan="6" width="27%" style="padding-left:5px"><span><b><span t-field="doc.company_id.street"/>, <span t-field="doc.company_id.street2"/>, <span t-field="doc.company_id.city"/></b></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" colspan="6" width="27%" style="padding-left:5px;border-bottom:solid 1px;"><span><b>+94 114341238</b></span></td>
+                                </tr>
+                            </table>
+                            <table width="85%">
+                                <tr>
+                                    <td class="text-left" width="50%" style="padding-left:5px"><span t-field="doc.partner_id.name"/></td>
+                                    <td class="text-left" width="50%" style="padding-left:5px;font-size: 16px;"><b><span t-field="doc.invoice_origin"/></b></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left" width="50%" style="padding-left:5px">&#160;</td>
+                                    <td class="text-left" width="50%" style="padding-left:5px"><span t-esc="doc.date"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left" width="50%" style="padding-left:5px;border-bottom:solid 1px;"><span t-field="doc.partner_id.mobile"/></td>
+                                    <td class="text-left" width="50%" style="padding-left:5px;border-bottom:solid 1px;"><span t-field="doc.partner_id.phone"/></td>
+                                </tr>
+                            </table>
+                            <table width="85%">
+                                <t t-foreach="doc.invoice_line_ids" t-as="line">
+                                    <tr>
+                                        <td class="text-left" width="100%" style="padding-left:5px" colspan="2"><span t-field="line.product_id"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right" width="30%" style="padding-left:5px"><span t-field="line.price_unit"/></td>
+                                        <td class="text-center" width="30%" style="padding-left:5px"><span t-field="line.quantity"/></td>
+                                        <td class="text-right" width="40%" style="padding-left:5px"><span t-esc="'{0:,.2f}'.format(line.quantity * line.price_unit)" t-esc-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
+                                    </tr>
+                                </t>
+                            </table>
+                            <table width="85%">
+                                <tr>
+                                    <td class="text-left" width="20%" style="padding-left:5px;border-top:solid 1px;">&#160;</td>
+                                    <td class="text-left" width="60%" style="padding-left:5px;border-top:solid 1px;"><span>Total Amount</span></td>
+                                    <td class="text-right" width="20%" style="padding-left:5px;border-top:solid 1px;"><span t-field="doc.amount_total"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left" width="20%" style="padding-left:5px"><span t-field="doc.employee_id.emp_no"/></td>
+                                    <td class="text-left" width="60%" style="padding-left:5px"><span>Advance Amount</span></td>
+                                    <td class="text-right" width="20%" style="padding-left:5px"><span t-field="doc.total_advance"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left" width="20%" style="padding-left:5px">&#160;</td>
+                                    <td class="text-left" width="60%" style="padding-left:5px"><span>Total Bal. Amount</span></td>
+                                    <td class="text-right" width="20%" style="padding-left:5px"><span t-field="doc.amount_residual"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left" width="20%" style="padding-left:5px">&#160;</td>
+                                    <td class="text-left" width="60%" style="padding-left:5px"><span>Paid Amount</span></td>
+                                    <td class="text-right" width="20%" style="padding-left:5px"><span t-field="doc.total_paid_amount"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left" width="20%" style="padding-left:5px">&#160;</td>
+                                    <td class="text-left" width="60%" style="padding-left:5px"><span>Total Due</span></td>
+                                    <td class="text-right" width="20%" style="padding-left:5px"><span t-field="doc.partner_id.total_due"/></td>
+                                </tr>
+                            </table>
+                            <table width="85%">
+                                <tr>
+                                    <td class="text-left" width="50%" style="padding-left:5px;font-size: 16px;"><b>Balance</b></td>
+                                    <td class="text-right" width="50%" style="padding-left:5px;font-size: 16px;"><b><span t-field="doc.balance"/></b></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div name="footer_left_column" class="text-left" style="font-size:10px;font-family: Times new Roman;">
+                            <div name="pager" t-if="report_type == 'pdf'">
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="report_job_slip_paperformat" model="report.paperformat">
+            <field name="name">Job Slip</field>
+            <field name="default" eval="False"/>
+            <field name="format">custom</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">3</field>
+            <field name="margin_right">3</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="page_height">150</field>
+            <field name="page_width">76</field>
+            <field name="dpi">96</field>
+        </record>
+
+
+        <report
+                id="new_job_slip_action"
+                model="sale.order"
+                string="Job Slip"
+                report_type="qweb-pdf"
+                menu="False"
+                name="sales_advance_payment.report_job_slip"
+                file="sales_advance_payment.report_job_slip"
+                print_report_name="(object._get_report_base_filename())"
+                paperformat="report_job_slip_paperformat"
+        />
+
+        <report
+                id="new_job_slip_action_invoice"
+                model="account.move"
+                string="Job Slip"
+                report_type="qweb-pdf"
+                menu="False"
+                name="sales_advance_payment.report_job_slip_invoice"
+                file="sales_advance_payment.report_job_slip_invoice"
+                print_report_name="(object._get_report_base_filename())"
+                paperformat="report_job_slip_paperformat"
+        />
+    </data>
+</odoo>

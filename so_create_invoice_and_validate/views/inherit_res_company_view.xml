@@ -1,0 +1,12 @@
+<odoo>
+    <record id="inherit_res_company_view" model="ir.ui.view">
+        <field name="name">inherit.res.company.view</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='phone']" position="after">
+                <field name="so_step_bypass"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

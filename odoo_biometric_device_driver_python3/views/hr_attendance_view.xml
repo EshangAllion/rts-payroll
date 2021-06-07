@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- inherit attendance form -->
+	<record id="hr_attendance_view_form_tis_naag_inherit" model="ir.ui.view">
+		<field name="name">hr.attendance.form.naag</field>
+		<field name="model">hr.attendance</field>
+		<field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//group" position="after">
+				<group colspan="4">
+					<group>
+						<field name="date"/>
+						<field name="in_time" widget="float_time"/>
+					</group>
+					<group>
+						<field name="out_time" widget="float_time"/>
+						<field name="worked_hours" widget="float_time"/>
+					</group>
+				</group>
+			</xpath>
+		</field>
+	</record>
+
+	<record id="hr_attendance.view_attendance_tree" model="ir.ui.view">
+		<field name="name">hr.attendance.tree</field>
+		<field name="model">hr.attendance</field>
+		<field name="arch" type="xml">
+			<tree string="Employee attendances">
+				<field name="employee_id"/>
+				<field name="check_in"/>
+				<field name="check_out"/>
+				<field name="date" required="1"/>
+				<field name="in_time" widget="float_time" invisible="1"/>
+				<field name="out_time" widget="float_time" invisible="1"/>
+				<field name="worked_hours" widget="float_time"/>
+				<field name="ot_hours" widget="float_time"/>
+				<field name="ot_double_hours" widget="float_time"/>
+			</tree>
+		</field>
+	</record>
+
+<!--    <record id="hr_attendance.view_employee_form_inherit_hr_attendance" model="ir.ui.view">-->
+<!--        <field name="name">hr.employee</field>-->
+<!--        <field name="model">hr.employee</field>-->
+<!--        <field name="inherit_id" ref="hr.view_employee_form"/>-->
+<!--        <field name="priority">10</field>-->
+<!--        <field name="groups_id" eval="[(4,ref('hr_attendance.group_hr_attendance_user'))]"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//group[@name='active_group']" position="after">-->
+<!--                <group string='Attendance' groups="hr_attendance.group_hr_attendance_user">-->
+<!--                    <field name="barcode"/>-->
+<!--                    <field name="pin" groups="hr_attendance.group_hr_attendance_use_pin"/>-->
+<!--                    <field name="manual_attendance" attrs="{'invisible': [('user_id', '=', False)]}"/>-->
+<!--                </group>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--	<record id="odoo_hr_attendance_view_form" model="ir.ui.view">-->
+<!--		<field name="name">hr.attendance.form.inherit</field>-->
+<!--		<field name="model">hr.attendance</field>-->
+<!--		<field name="inherit_id" ref="hr_attendance.hr_attendance_view_form" />-->
+<!--		<field name="groups_id" eval="[(6,0, [ref('group_hr_attendance_employee')])]" />-->
+<!--		<field name="arch" type="xml">-->
+<!--			<field name="employee_id" position="attributes">-->
+<!--				<attribute name="readonly">1</attribute>-->
+<!--				<attribute name="widget">selection</attribute>-->
+<!--			</field>-->
+<!--			<field name="check_in" position="attributes">-->
+<!--				<attribute name="readonly">1</attribute>-->
+<!--			</field>-->
+<!--			<field name="check_out" position="attributes">-->
+<!--				<attribute name="readonly">1</attribute>-->
+<!--			</field>-->
+<!--			<field name="date" position="attributes">-->
+<!--				<attribute name="readonly">1</attribute>-->
+<!--			</field>-->
+<!--			<field name="out_time" position="attributes">-->
+<!--				<attribute name="readonly">1</attribute>-->
+<!--			</field>-->
+<!--			<field name="in_time" position="attributes">-->
+<!--				<attribute name="readonly">1</attribute>-->
+<!--			</field>-->
+<!--			<field name="worked_hours" position="attributes">-->
+<!--				<attribute name="readonly">1</attribute>-->
+<!--			</field>-->
+<!--		</field>-->
+<!--	</record>-->
+
+<!--	<record id="hr_attendance.hr_attendance_view_filter" model="ir.ui.view">-->
+<!--		<field name="name">hr_attendance_view_filter</field>-->
+<!--		<field name="model">hr.attendance</field>-->
+<!--		<field name="arch" type="xml">-->
+<!--			<search string="Hr Attendance Search">-->
+<!--				<field name="employee_id"/>-->
+<!--				<field name="department_id"/>-->
+<!--				<filter name="today" string="Today" domain="[('check_in', '&gt;=', datetime.datetime.now().replace(hour=0, minute=0, second=0)),('check_in', '&lt;=', datetime.datetime.now().replace(hour=23, minute=59, second=59))]" />-->
+<!--				<filter string="Current Month" domain="[('check_in', '&gt;=', datetime.datetime.now().strftime('%Y-%m-01'))]" />-->
+<!--				<separator/>-->
+<!--				<filter string="No Check Out" domain="[('check_out', '=', False)]" />-->
+<!--				<separator/>-->
+<!--				<filter name="my_attendance" string="My Attendances" domain="[('employee_id.user_id.id', '=', uid)]"/>-->
+<!--				<filter name="my_team_attendance" string="My Team Attendance" domain="[('employee_id.parent_id.user_id.id', '=', uid)]"/>-->
+<!--				<group expand="0" string="Group By">-->
+<!--					<filter name="employee" string="Employee" context="{'group_by':'employee_id'}"/>-->
+<!--					<separator/>-->
+<!--					<filter name="groupby_name" string="Month" context="{'group_by':'check_in'}"/>-->
+<!--				</group>-->
+<!--			</search>-->
+<!--		</field>-->
+<!--	</record>-->
+</odoo>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Custom report.-->
+<!--check_without_account_payee_and_without_20-->
+<odoo>
+    <template id="cheque_cash_without_20_bulk">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <t t-foreach="docs" t-as="o">
+                    <div style="float:right">
+                        <table style="margin-left: 141mm;font-size: 12px; margin-bottom: 8mm; padding-top: 37mm; font-size: 16px;"
+                               width="450px" height="23px">
+                            <tr>
+                                <td class="text-center" width="30mm" height="6mm">
+                                </td>
+                                <td class="text-center" width="7mm" height="6mm" style="margin-right:100px; padding-left:34px">
+                                </td>
+                                <td class="text-center" width="7mm" height="6mm">
+                                    <span t-esc="o.payment_date[8:9]"></span>
+                                </td>
+                                <td class="text-center" width="7mm" height="6mm">
+                                    <span t-esc="o.payment_date[9:10]"></span>
+                                </td>
+                                <td class="text-center" width="7mm" height="6mm">
+                                    <span t-esc="o.payment_date[5:6]"></span>
+                                </td>
+                                <td class="text-center" width="7mm" height="6mm">
+                                    <span t-esc="o.payment_date[6:7]"></span>
+                                </td>
+                                <td class="text-center" width="7mm" height="6mm"></td>
+                                <td class="text-center" width="7mm" height="6mm"></td>
+                                <td class="text-center" width="7mm" height="6mm">
+                                    <span t-esc="o.payment_date[2:3]"></span>
+                                </td>
+                                <td class="text-center" width="7mm" height="6mm">
+                                    <span t-esc="o.payment_date[3:4]"></span>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div style="margin-left: 81mm; font-size: 16px; margin-bottom: 0px; padding: 0;">
+                            <span t-field="o.partner_id"></span>
+                        </div>
+
+                        <div style="margin-left: 180mm; font-size: 16px; margin-top: 0px; padding: 0;">
+                            <span></span>
+                        </div>
+
+                        <div style="margin-left: 82mm; margin-top:20px; font-size: 16px; float: left; width: 10.5cm; line-height: 2.2">
+                            <span t-field="o.lines_total_amount_in_words"></span> Only
+                        </div>
+
+                        <div style="margin-left: 206mm; font-size: 20px; margin-top: 40px;">
+                            <span t-esc="'{0:,.2f}'.format(float(o.lines_total_amount)).replace(',', ',')"></span>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+    <report
+            id="action_cheque_cash_without_20_bulk"
+            model="account.bulk.payment"
+            string="Cheque Cash without 20"
+            report_type="qweb-pdf"
+            attachment_use="True"
+            name="bulk_payment.cheque_cash_without_20_bulk"
+            file="bulk_payment.cheque_cash_without_20_bulk"
+            paperformat="bulk_payment.cheque_printing_paperformat_bulk"
+    />
+
+</odoo>

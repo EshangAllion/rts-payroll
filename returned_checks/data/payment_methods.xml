@@ -1,0 +1,58 @@
+<odoo>
+    <data noupdate="0">
+        <record id="account.account_payment_method_manual_in" model="account.payment.method">
+            <field name="name">Cash</field>
+            <field name="code">manual</field>
+            <field name="payment_type">inbound</field>
+        </record>
+        <record id="account.account_payment_method_manual_out" model="account.payment.method">
+            <field name="name">Cash</field>
+            <field name="code">manual</field>
+            <field name="payment_type">outbound</field>
+        </record>
+
+        <record id="slip_inbound" model="account.payment.method">
+            <field name="name">Deposit Slip</field>
+            <field name="code">slip</field>
+            <field name="payment_type">inbound</field>
+        </record>
+        <record id="slip_outbound" model="account.payment.method">
+            <field name="name">Deposit Slip</field>
+            <field name="code">slip</field>
+            <field name="payment_type">outbound</field>
+        </record>
+
+        <record id="cheque_inbound" model="account.payment.method">
+            <field name="name">Cheque</field>
+            <field name="code">cheque</field>
+            <field name="payment_type">inbound</field>
+        </record>
+        <record id="cheque_outbound" model="account.payment.method">
+            <field name="name">Cheque</field>
+            <field name="code">cheque</field>
+            <field name="payment_type">outbound</field>
+        </record>
+
+        <record id="d_cheques_inbound" model="account.payment.method">
+            <field name="name">Deposit Cheque</field>
+            <field name="code">d_cheques</field>
+            <field name="payment_type">inbound</field>
+        </record>
+        <record id="d_cheques_outbound" model="account.payment.method">
+            <field name="name">Deposit Cheque</field>
+            <field name="code">d_cheques</field>
+            <field name="payment_type">outbound</field>
+        </record>
+
+        <record id="over_payment_inbound" model="account.payment.method">
+            <field name="name">Over Payment</field>
+            <field name="code">over_payment</field>
+            <field name="payment_type">inbound</field>
+        </record>
+        <record id="over_payment_outbound" model="account.payment.method">
+            <field name="name">Over Payment</field>
+            <field name="code">over_payment</field>
+            <field name="payment_type">outbound</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,47 @@
+<odoo>
+
+    <data>
+        <record id="inv_profitability_form" model="ir.ui.view">
+            <field name="name">inv.profitability.form</field>
+            <field name="model">profitability.report.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="is_printed" nolabel="1" readonly="1" invisible="1"/>
+                    <group colspan="4" attrs="{'invisible': [('is_printed','=',True)]}">
+                        <group>
+                            <field name="start_date" required="1"/>
+                        </group>
+                        <group>
+                            <field name="end_date" required="1"/>
+                        </group>
+                    </group>
+                    <group attrs="{'invisible': [('is_printed','!=',True)]}" colspan="4">
+                        <field widget="binary" name="report_file" nolabel="1" filename="report_name" colspan="4"/>
+                        <field name="report_name" nolabel="1" readonly="1" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button name="get_report" string="Get Report" class="btn btn-Success"
+                                type='object'/>
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="inv_profitability_report_wizard" model="ir.actions.act_window">
+            <field name="name">Invoice Profitability Reports</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">profitability.report.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="inv_profitability_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_profitability_report"
+                  name="Invoice Profitability Report"
+                  parent="account.menu_finance_reports"
+                  action="inv_profitability_report_wizard"/>
+
+    </data>
+
+</odoo>

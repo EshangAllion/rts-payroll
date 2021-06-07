@@ -1,0 +1,145 @@
+<odoo>
+    <record id="sms_gateway_config_form_view" model="ir.ui.view">
+        <field name="name">sms.gateway.config.form.view</field>
+        <field name="model">sms.gateway.config</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1"/>
+                        </group>
+                        <group>
+                            <field name="url_id" required="1"/>
+                        </group>
+                    </group>
+                    <field name="body" required=""/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sms_gateway_config_tree_view" model="ir.ui.view">
+        <field name="name">sms.gateway.config.tree.view</field>
+        <field name="model">sms.gateway.config</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="url_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sms_gateway_config_action" model="ir.actions.act_window">
+        <field name="name">SMS Gateway Integration Points Configuration</field>
+        <field name="res_model">sms.gateway.config</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new config
+            </p>
+        </field>
+    </record>
+
+    <record id="sms_gateway_url_form_view" model="ir.ui.view">
+        <field name="name">sms.gateway.url.form.view</field>
+        <field name="model">sms.gateway.url</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="username" required="1"/>
+                            <field name="dr" required="1"/>
+                        </group>
+                        <group>
+                            <field name="sender_id" required="1"/>
+                            <field name="password" required="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sms_gateway_url_tree_view" model="ir.ui.view">
+        <field name="name">sms.gateway.url.tree.view</field>
+        <field name="model">sms.gateway.url</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="username"/>
+                <field name="sender_id"/>
+                <field name="dr"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sms_gateway_url_action" model="ir.actions.act_window">
+        <field name="name">SMS Gateway Master Data</field>
+        <field name="res_model">sms.gateway.url</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Master Data
+            </p>
+        </field>
+    </record>
+
+    <record id="sms_log_form_view" model="ir.ui.view">
+        <field name="name">sms.log.form.view</field>
+        <field name="model">sms.log</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="mobile_number"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="sms_gateway_url" required="1"/>
+                            <field name="sale_order_id"/>
+                            <field name="response"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                    <field name="body" required=""/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sms_log_tree_view" model="ir.ui.view">
+        <field name="name">sms.log.tree.view</field>
+        <field name="model">sms.log</field>
+        <field name="arch" type="xml">
+            <tree create="false">
+                <field name="name"/>
+                <field name="sms_gateway_url"/>
+                <field name="mobile_number"/>
+                <field name="sale_order_id"/>
+                <field name="date"/>
+                <field name="response"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sms_log_action" model="ir.actions.act_window">
+        <field name="name">SMS Log</field>
+        <field name="res_model">sms.log</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="SMS" id="menu_sms_gateway" parent="base.menu_custom" sequence="0"/>
+
+    <menuitem id="menu_sms_gateway_master_data" name="SMS Gateway Master Data" action="sms_gateway_url_action"
+              parent="menu_sms_gateway" sequence="1" groups="base.group_user"/>
+    <menuitem id="menu_sms_gateway_config_action" name="SMS Gateway Integration Points Configuration" action="sms_gateway_config_action"
+              parent="menu_sms_gateway" sequence="2" groups="base.group_user"/>
+    <menuitem id="menu_sms_log_action" name="SMS Log" action="sms_log_action"
+              parent="menu_sms_gateway" sequence="3" groups="base.group_user"/>
+</odoo>
